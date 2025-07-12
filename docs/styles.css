@@ -1,0 +1,223 @@
+body {
+    background: repeating-linear-gradient(45deg, #000, #000 10px, #1a1a1a 10px, #1a1a1a 20px);
+    font-family: 'VT323', monospace;
+    color: #FFFFFF;
+    margin: 0;
+    display: flex;
+    overflow: hidden;
+    height: 100vh;
+}
+
+.left-section, .right-section {
+    width: 50%;
+    padding: 20px;
+    box-sizing: border-box;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.left-section {
+    background: rgba(0, 0, 0, 0.7);
+    font-size: 1.2em;
+}
+
+.catchy-headline {
+    font-size: 2.5em;
+    color: #FFFF00;
+    text-shadow: 0 0 5px #FF00FF, 0 0 10px #FF00FF;
+    margin-bottom: 20px;
+}
+
+.overview {
+    line-height: 1.5;
+    color: #ccc;
+}
+
+.doc-section {
+    background: rgba(255, 255, 0, 0.1);
+    border: 1px dashed #FF00FF;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 0;
+}
+.doc-section h2 {
+    color: #00FF00;
+    margin-top: 0;
+}
+.doc-section code {
+    background: #111;
+    color: #00FF00;
+    padding: 5px;
+    display: block;
+    margin: 10px 0;
+    white-space: pre-wrap;
+}
+
+.crt-terminal {
+    height: 60vh;
+    background: #000;
+    border: 5px solid #666;
+    padding: 20px;
+    position: relative;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+    filter: url(#crt-filter);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.crt-terminal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(to bottom, rgba(0,255,0,0.1) 0, rgba(0,255,0,0.1) 1px, transparent 1px, transparent 2px);
+    pointer-events: none;
+    z-index: 2;
+}
+
+#terminal-output {
+    flex-grow: 1;
+    overflow-y: auto;
+    color: #00FF00;
+    font-size: 1.2em;
+    padding-right: 10px;
+}
+#terminal-output p { margin: 5px 0; }
+
+#terminal-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: #FFFFFF;
+    font-size: 1.2em;
+    font-family: 'VT323', monospace;
+    outline: none;
+    border-top: 1px solid #333;
+    padding-top: 10px;
+}
+
+.music-player {
+    position: relative;
+    margin-top: 30px;
+    background: #222;
+    padding: 15px;
+    border: 2px solid #FF00FF;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.tape-reels {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+}
+
+.reel {
+    width: 50px;
+    height: 50px;
+    background: radial-gradient(circle, #C0C0C0, #808080);
+    border-radius: 50%;
+    animation: spin 2s linear infinite paused;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.player-display {
+    font-size: 1.2em;
+    color: #FFA500;
+    margin-bottom: 10px;
+    background: #000;
+    border: 1px solid #FF0;
+    padding: 5px;
+}
+
+.music-player .controls button {
+    background: #FF69B4;
+    border: none;
+    color: #000;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 1.2em;
+    margin: 0 5px;
+}
+.music-player .controls .shuffle-btn.active {
+    background: #00FF00;
+    color: #000;
+}
+
+#volume-slider {
+    width: 80%;
+    margin-top: 10px;
+}
+
+.flash-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #FFFFFF;
+    background: #111;
+    padding: 10px;
+    border: 1px solid #FF00FF;
+}
+
+.flashing {
+    animation: flash 0.5s infinite alternate;
+}
+
+@keyframes flash {
+    0% { box-shadow: 0 0 20px #FF0, 0 0 30px #FF0; }
+    50% { box-shadow: 0 0 20px #FF69B4, 0 0 30px #FF69B4; }
+    100% { box-shadow: 0 0 20px #00FF00, 0 0 30px #00FF00; }
+}
+
+.animation-step {
+    animation: punk-vibrate 0.2s;
+    color: #FFFF00;
+}
+
+@keyframes punk-vibrate {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(2px, -2px); }
+    50% { transform: translate(-2px, 2px); }
+    75% { transform: translate(2px, 2px); }
+    100% { transform: translate(0, 0); }
+}
+
+.taskbar {
+    background: #FF69B4;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    box-shadow: 0 -5px 15px rgba(255, 105, 180, 0.5);
+}
+
+.punk-button {
+    background: #000;
+    border: 2px dashed #FFFF00;
+    color: #FF69B4;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: transform 0.2s, color 0.2s, background-color 0.2s;
+    font-family: 'VT323', monospace;
+    font-size: 1.2em;
+}
+
+.punk-button:hover {
+    transform: rotate(-3deg) scale(1.1);
+    background: #FFFF00;
+    color: #000;
+}
+
+svg { display: none; }
+

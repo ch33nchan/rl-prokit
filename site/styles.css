@@ -1,0 +1,192 @@
+body {
+    background: repeating-linear-gradient(45deg, #000, #000 10px, #FF0 10px, #FF0 20px);
+    font-family: 'VT323', monospace;
+    color: #FFFFFF;
+    margin: 0;
+    display: flex;
+}
+
+.left-section {
+    width: 50%;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    font-size: 18px;
+}
+
+.catchy-headline {
+    font-size: 36px;
+    color: #FFFF00;
+    text-shadow: 0 0 5px #000;
+}
+
+.overview {
+    line-height: 1.5;
+}
+
+.doc-section {
+    background: rgba(255, 255, 0, 0.2);
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 10px;
+}
+
+.crt-terminal {
+    width: 40%;
+    height: 400px;
+    margin: 20px;
+    background: #000;
+    border: 5px solid #666;
+    padding: 20px;
+    position: relative;
+    box-shadow: 0 0 20px #00FF00;
+    filter: url(#crt-filter);
+    border-radius: 10px;
+}
+
+.crt-terminal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(to bottom, rgba(0,255,0,0.1) 0, rgba(0,255,0,0.1) 1px, transparent 1px, transparent 2px);
+    pointer-events: none;
+}
+
+#terminal-output {
+    min-height: 250px;
+    overflow-y: auto;
+    border: 1px solid #FFFFFF;
+    color: #00FF00;
+    font-size: 20px;
+}
+
+#terminal-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: #FFFFFF;
+    font-size: 20px;
+}
+
+.music-player {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: #333;
+    padding: 10px;
+    border: 2px solid #FF0;
+    width: 200px;
+    text-align: center;
+}
+
+.tape-reels {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 5px;
+}
+
+.reel {
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle, #C0C0C0, #808080);
+    border-radius: 50%;
+    animation: spin 2s linear infinite paused;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.player-display {
+    font-size: 14px;
+    color: #FFA500;
+    margin-bottom: 5px;
+    background: #000;
+    border: 1px solid #FF0;
+    padding: 2px;
+}
+
+.play-pause {
+    background: #FF69B4;
+    border: none;
+    color: #000;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#volume-slider {
+    width: 100px;
+}
+
+.flash-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #FFFFFF;
+}
+
+.flashing {
+    animation: flash 0.5s infinite;
+}
+
+@keyframes flash {
+    0% { box-shadow: 0 0 10px #FF0; }
+    33% { box-shadow: 0 0 10px #FF69B4; }
+    66% { box-shadow: 0 0 10px #00FF00; }
+    100% { box-shadow: 0 0 10px #FF0; }
+}
+
+.animation-step {
+    animation: punk-vibrate 0.5s;
+}
+
+@keyframes punk-vibrate {
+    0% { transform: translate(0); }
+    25% { transform: translate(2px, 2px); }
+    50% { transform: translate(-2px, -2px); }
+    75% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+.particle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #FF0;
+    border-radius: 50%;
+    animation: explode 1s forwards;
+}
+
+@keyframes explode {
+    0% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0) translateY(-100px); }
+}
+
+.taskbar {
+    background: #FF69B4;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.punk-button {
+    background: #000;
+    border: 2px dashed #FFFF00;
+    color: #FF69B4;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.punk-button:hover {
+    transform: rotate(5deg) scale(1.1);
+}
+
+/* CRT Filter */
+svg { display: none; }

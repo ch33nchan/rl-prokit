@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RL ProtoKit Docs - Punk Desktop Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="punk-desktop">
+        <div class="left-section">
+            <h1 class="catchy-headline">RL ProtoKit: Punk Your RL Workflow!</h1>
+            <p class="overview">RL ProtoKit is a lightweight CLI tool for reinforcement learning developers. It helps with quick prototyping by generating custom env wrappers, tuning hyperparameters, debugging policies, and running full pipelines. Built to stand out in job apps, it's easy to install and use. Run <code>pip install -e .</code> in the root, then try commands in the terminal on the right.</p>
+            
+            <div class="doc-section" id="generate-section">
+                <h3>Generate Command</h3>
+                <p>Creates custom Gym wrappers. Components: Parse mods (splits input), Build template (constructs class), Output file (writes code). Final output: .py file with Wrapper class. Use for env mods like reward scaling in CartPole to stabilize training.</p>
+            </div>
+            <div class="doc-section" id="tune-section">
+                <h3>Tune Command</h3>
+                <p>Runs grid search. Components: Create grid (generates combos), Run trials (parallel training), Rank & save (selects best). Final output: tuned_model.pth. Great for optimizing learning rates in DQN models.</p>
+            </div>
+            <div class="doc-section" id="debug-section">
+                <h3>Debug Command</h3>
+                <p>Steps through policies. Components: Load model (torch.load), Simulate steps (env.step), Display values (Rich table). Final output: Decision table. Helps spot issues in agent behavior.</p>
+            </div>
+            <div class="doc-section" id="full-section">
+                <h3>Full Pipeline</h3>
+                <p>Chains all commands. Components: Generate, Tune, Debug. Final output: Complete results. Ideal for end-to-end testing.</p>
+            </div>
+        </div>
+        
+        <section id="terminal" class="crt-terminal">
+            <h2>Command Simulator</h2>
+            <div id="terminal-output"></div>
+            <input type="text" id="terminal-input" placeholder="Type or click buttons...">
+        </section>
+        
+        <div id="animation-container"></div>
+        
+        <div class="music-player">
+            <div class="tape-reels">
+                <div class="reel left"></div>
+                <div class="reel right"></div>
+            </div>
+            <div class="player-display">On Sight - Kanye West</div>
+            <button class="play-pause" onclick="togglePlay()">▶️/⏸️</button>
+            <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="0.5" onchange="setVolume(this.value)">
+            <input type="text" id="song-search" placeholder="Search...">
+            <button onclick="searchSong()">🔍</button>
+        </div>
+        
+        <label class="flash-toggle">
+            <input type="checkbox" id="flash-enable" onclick="toggleFlashing()"> Enable Flashing
+        </label>
+        
+        <div class="taskbar">
+            <button class="punk-button" onclick="runCommand('generate')">Generate</button>
+            <button class="punk-button" onclick="runCommand('tune')">Tune</button>
+            <button class="punk-button" onclick="runCommand('debug')">Debug</button>
+            <button class="punk-button" onclick="runCommand('full')">Full</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+:root {
+  --md-primary-fg-color: #3f51b5;  /* Indigo for TE minimalism */
+  --md-accent-fg-color: #e91e63;  /* Pink accents */
+}
+.md-typeset {
+  font-family: 'Arial', sans-serif;  /* Clean, modern */
+  animation: fadeIn 1s;  /* Subtle entry animation */
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+button {
+  background: #e91e63;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  border-radius: 50%;  /* Circular, like TE knobs */
+}

@@ -1,147 +1,122 @@
-// docs/script.js
-
-// --- CRT Terminal Command Logic and Animations ---
-
-function runCommand(type) {
-    const output = document.getElementById('terminal-output');
-    output.innerHTML = `<p>Executing ${type}...</p>`;
-    const steps = {
-        generate: [
-            {name: 'Parse Mods', desc: 'Splits input like "scale_rewards=0.5" into key-value. This allows flexible customization without hardcoding.', animation: 'break-chains'},
-            {name: 'Build Template', desc: 'Constructs the CustomWrapper class by inserting mod logic into a string template. For example, adds "reward *= 0.5" to the step method for reward scaling.', animation: 'assemble-parts'},
-            {name: 'Output File', desc: 'Writes the complete code to a .py file, ready for import in your RL script. Final output is a functional wrapper class.', animation: 'file-pop'}
-        ],
-        tune: [
-            {name: 'Create Grid', desc: 'Uses itertools to generate all parameter combinations (e.g., different learning rates). Ensures exhaustive testing.', animation: 'matrix-build'},
-            {name: 'Run Parallel Trials', desc: 'Launches training in a multiprocessing Pool for speed, running limited episodes per trial.', animation: 'racing-cars'},
-            {name: 'Rank & Save', desc: 'Aggregates results in Pandas, ranks by average reward, and saves the best model as tuned_model.pth.', animation: 'podium-rank'}
-        ],
-        debug: [
-            {name: 'Load Model', desc: 'Uses torch.load to import the trained model from file, preparing it for evaluation in eval mode.', animation: 'wire-connect'},
-            {name: 'Simulate Steps', desc: 'Loops through env.step, computing actions and Q-values with the model, handling terminations.', animation: 'walking-figure'},
-            {name: 'Display Values', desc: 'Builds a Rich table showing state, action, Q-values, and confidence, highlighting anomalies.', animation: 'bubble-pop'}
-        ],
-        full: [
-            {name: 'Generate Wrapper', desc: 'Calls generate to create and modify the environment wrapper.', animation: 'link-chain'},
-            {name: 'Tune Params', desc: 'Runs tuning on the wrapped env to optimize hyperparameters.', animation: 'gear-turn'},
-            {name: 'Debug Policy', desc: 'Debugs the tuned model, chaining the full workflow.', animation: 'final-explosion'}
-        ]
-    }[type];
-    steps.forEach((step, index) => {
-        setTimeout(() => {
-            output.innerHTML += `<p class="animation-step"><b>${step.name}:</b> ${step.desc}</p>`;
-            animateComponent(step.animation);
-        }, index * 1500);
-    });
-}
-
-function animateComponent(type) {
-    const container = document.getElementById('animation-container');
-    const anim = document.createElement('div');
-    anim.className = `animation ${type}`;
-    container.appendChild(anim);
-    setTimeout(() => anim.remove(), 1500);
-}
-
-document.getElementById('terminal-input').addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-        const type = e.target.value.split(' ')[1] || 'generate';
-        runCommand(type);
-        e.target.value = '';
-    }
-});
-
-// --- Flashing Effect (Whole Window) ---
-
-function toggleFlashing() {
-    const enable = document.getElementById('flash-enable').checked;
-    if (enable) {
-        document.body.classList.add('flashing');
-        document.querySelector('.crt-terminal').classList.add('flashing');
-    } else {
-        document.body.classList.remove('flashing');
-        document.querySelector('.crt-terminal').classList.remove('flashing');
-    }
-}
-
-// --- Music Player Logic ---
-
-const musicFolder = "music/";
-const tracks = [
-    {file: "on_sight.mp3", title: "On Sight - Kanye West"},
-    // Add more tracks here, e.g.:
-    // {file: "track2.mp3", title: "Track 2 - Artist"},
-    // {file: "track3.mp3", title: "Track 3 - Artist"},
+// Music Player
+const musicFolder = 'music/';
+const playlist = [
+  'on_sight.mp3',
+  // Add more mp3 filenames here, e.g. 'track2.mp3', 'track3.mp3'
 ];
 let currentTrack = 0;
-let isShuffling = false;
-
 const audio = document.getElementById('audio-player');
 const playerDisplay = document.getElementById('player-display');
+const reels = document.querySelectorAll('.reel');
 
 function loadTrack(idx) {
-    currentTrack = idx;
-    audio.src = musicFolder + tracks[currentTrack].file;
-    playerDisplay.textContent = tracks[currentTrack].title;
-    playMusic();
-}
-
-function playMusic() {
-    audio.play();
-    document.querySelectorAll('.reel').forEach(reel => reel.style.animationPlayState = 'running');
-}
-
-function pauseMusic() {
-    audio.pause();
-    document.querySelectorAll('.reel').forEach(reel => reel.style.animationPlayState = 'paused');
+  if (idx < 0) idx = playlist.length - 1;
+  if (idx >= playlist.length) idx = 0;
+  currentTrack = idx;
+  audio.src = musicFolder + playlist[currentTrack];
+  playerDisplay.textContent = playlist[currentTrack].replace('.mp3', '').replace(/_/g, ' ');
+  audio.play();
+  reels.forEach(r => r.style.animationPlayState = 'running');
 }
 
 function togglePlay() {
-    if (audio.paused) {
-        playMusic();
-    } else {
-        pauseMusic();
-    }
+  if (audio.paused) {
+    audio.play();
+    reels.forEach(r => r.style.animationPlayState = 'running');
+  } else {
+    audio.pause();
+    reels.forEach(r => r.style.animationPlayState = 'paused');
+  }
 }
-
 function setVolume(value) {
-    audio.volume = parseFloat(value);
+  audio.volume = parseFloat(value);
 }
-
 function nextTrack() {
-    if (isShuffling) {
-        let next = Math.floor(Math.random() * tracks.length);
-        while (next === currentTrack && tracks.length > 1) {
-            next = Math.floor(Math.random() * tracks.length);
-        }
-        loadTrack(next);
-    } else {
-        loadTrack((currentTrack + 1) % tracks.length);
-    }
+  loadTrack(currentTrack + 1);
 }
-
 function previousTrack() {
-    loadTrack((currentTrack - 1 + tracks.length) % tracks.length);
+  loadTrack(currentTrack - 1);
 }
-
 function shuffleMusic() {
-    isShuffling = !isShuffling;
-    document.querySelector('.shuffle-btn').classList.toggle('active', isShuffling);
-    if (isShuffling) nextTrack();
+  let idx = Math.floor(Math.random() * playlist.length);
+  while (idx === currentTrack && playlist.length > 1) {
+    idx = Math.floor(Math.random() * playlist.length);
+  }
+  loadTrack(idx);
+}
+audio.addEventListener('ended', nextTrack);
+
+// Auto-play on first interaction (browser restriction workaround)
+document.body.addEventListener('click', () => {
+  if (audio.paused) {
+    loadTrack(currentTrack);
+    audio.play();
+    reels.forEach(r => r.style.animationPlayState = 'running');
+  }
+}, { once: true });
+
+// Load initial track
+window.addEventListener('DOMContentLoaded', () => {
+  loadTrack(currentTrack);
+  setVolume(document.getElementById('volume-slider').value);
+});
+
+// Flashing toggle
+function toggleFlashing() {
+  const enabled = document.getElementById('flash-enable').checked;
+  document.body.classList.toggle('flashing', enabled);
+  document.querySelector('.trippy-bg').classList.toggle('flashing', enabled);
 }
 
-audio.addEventListener('ended', () => {
-    nextTrack();
-});
+// CRT Terminal Command Logic
+function runCommand(type) {
+  const output = document.getElementById('terminal-output');
+  output.innerHTML = `<p>Executing <b>${type}</b>...</p>`;
+  const steps = {
+    generate: [
+      {name: 'Parse Mods', desc: 'Splits input like "scale_rewards=0.5" into key-value pairs.'},
+      {name: 'Build Template', desc: 'Constructs the CustomWrapper class with mod logic.'},
+      {name: 'Output File', desc: 'Writes the code to a .py file for import.'}
+    ],
+    tune: [
+      {name: 'Create Grid', desc: 'Generates parameter combinations.'},
+      {name: 'Run Parallel Trials', desc: 'Runs training trials in parallel.'},
+      {name: 'Rank & Save', desc: 'Ranks results and saves the best model.'}
+    ],
+    debug: [
+      {name: 'Load Model', desc: 'Loads model from file.'},
+      {name: 'Simulate Steps', desc: 'Simulates environment steps.'},
+      {name: 'Display Values', desc: 'Shows Q-values and confidence.'}
+    ],
+    full: [
+      {name: 'Generate Wrapper', desc: 'Generates environment wrapper.'},
+      {name: 'Tune Params', desc: 'Tunes hyperparameters.'},
+      {name: 'Debug Policy', desc: 'Debugs the tuned model.'}
+    ]
+  }[type];
 
-// Auto-play on load and start reels
-window.addEventListener('DOMContentLoaded', () => {
-    loadTrack(0);
-    playMusic();
-});
+  steps.forEach((step, index) => {
+    setTimeout(() => {
+      output.innerHTML += `<p class="animation-step"><b>${step.name}:</b> ${step.desc}</p>`;
+      animateComponent();
+    }, index * 1500);
+  });
+}
 
-// Clicking anywhere starts music if browser blocks autoplay
-document.body.addEventListener('click', () => {
-    if (audio.paused) playMusic();
-    document.querySelectorAll('.reel').forEach(reel => reel.style.animationPlayState = 'running');
-}, { once: true });
+function animateComponent() {
+  const container = document.getElementById('animation-container');
+  const particle = document.createElement('div');
+  particle.className = 'particle';
+  particle.style.left = `${Math.random() * 90 + 5}%`;
+  particle.style.top = `${Math.random() * 80 + 10}%`;
+  container.appendChild(particle);
+  setTimeout(() => particle.remove(), 1500);
+}
+
+document.getElementById('terminal-input').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    const type = e.target.value.split(' ')[1] || 'generate';
+    runCommand(type);
+    e.target.value = '';
+  }
+});

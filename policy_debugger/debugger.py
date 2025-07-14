@@ -5,7 +5,7 @@ def debug_policy(model, env_name):
     env = gym.make(env_name)
     state, _ = env.reset()
     state = torch.tensor(state, dtype=torch.float32)
-    done = false
+    done = False
 
     while not done:
         action = model(state).argmax().item()

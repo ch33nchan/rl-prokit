@@ -1,0 +1,68 @@
+# RL ProtoKit Configuration File
+# Copy this to your project root as 'protokit_config.yaml'
+
+# Default settings for all experiments
+defaults:
+  algorithm: ppo
+  trials: 10
+  save_models: true
+  verbose: true
+  
+# Environment-specific configurations
+environments:
+  # Atari games configuration
+  atari:
+    frame_stack: 4
+    grayscale: true
+    env_type: atari
+    mods: "fire_reset=True,max_pool=True"
+    
+  # Continuous control environments
+  continuous:
+    action_head: continuous
+    algorithm: sac
+    mods: "normalize_obs=True"
+    
+  # Multi-agent environments
+  multi_agent:
+    env_type: multi-agent
+    algorithm: mappo
+    mods: "shared_reward=True"
+    
+# Algorithm-specific configurations
+algorithms:
+  ppo:
+    ppo_clip_anneal: true
+    log_kl: true
+    params: "lr:[1e-4,3e-4,1e-3],gamma:[0.95,0.99]"
+    
+  dqn:
+    replay_type: prioritized
+    policy_type: fc
+    params: "lr:[0.001,0.01],batch_size:[32,64,128]"
+    
+  sac:
+    action_head: continuous
+    sac_temp_auto: true
+    params: "lr:[1e-4,3e-4],tau:[0.005,0.01]"
+    
+# Experiment tracking configuration
+experiment:
+  wandb_project: "rl_protokit_research"
+  save_checkpoints: true
+  statistical_analysis: true
+  plot_learning_curves: true
+  
+# Debug configuration
+debug:
+  default_episodes: 5
+  visualize: true
+  save_states: true
+  analyze_actions: true
+  
+# Advanced features
+features:
+  curiosity: false
+  intrinsic_reward_scale: 0.1
+  custom_wrappers: []
+  parallel_envs: 1
